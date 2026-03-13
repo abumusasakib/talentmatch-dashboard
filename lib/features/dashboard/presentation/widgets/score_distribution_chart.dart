@@ -1,0 +1,150 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import '../../domain/entity/score_distribution_entity.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class ScoreDistributionChart extends StatelessWidget {
+  final List<ScoreDistributionEntity> data;
+
+  const ScoreDistributionChart({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    final maxCount = data.isEmpty 
+        ? 100 
+        : data.map((e) => e.count).reduce((a, b) => a > b ? a : b);
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E293B),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white.withAlpha(20)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF38BDF8).withAlpha(30),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.analytics, color: Color(0xFF38BDF8), size: 20),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'AI Score Distribution',
+                    style: GoogleFonts.outfit(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    'Histogram of candidate scores across 30 bins',
+                    style: GoogleFonts.inter(color: Colors.white54, fontSize: 11),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Expanded(
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.center,
+                maxY: maxCount.toDouble() * 1.1,
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                    getTooltipColor: (_) => const Color(0xFF0F172A),
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      final item = data[groupIndex];
+                      return BarTooltipItem(
+                        'Range: ${item.binLeft.toStringAsFixed(2)} - ${item.binRight.toStringAsFixed(2)}\n',
+                        GoogleFonts.inter(color: Colors.white70, fontSize: 10),
+                        children: [
+                          TextSpan(
+                            text: 'Count: ${item.count}',
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF38BDF8),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 30,
+                      getTitlesWidget: (value, meta) {
+                        // Only show every 5th label to avoid crowding
+                        if (value % 5 != 0 && value != (data.length - 1)) return const SizedBox();
+                        if (value < 0 || value >= data.length) return const SizedBox();
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            data[value.toInt()].binLeft.toStringAsFixed(1),
+                            style: const TextStyle(color: Colors.white54, fontSize: 10),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      getTitlesWidget: (value, meta) {
+                        return Text(
+                          value.toInt().toString(),
+                          style: const TextStyle(color: Colors.white54, fontSize: 10),
+                        );
+                      },
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                borderData: FlBorderData(show: false),
+                gridData: FlGridData(
+                  show: true,
+                  drawHorizontalLine: true,
+                  drawVerticalLine: false,
+                  getDrawingHorizontalLine: (value) => FlLine(
+                    color: Colors.white.withAlpha(10),
+                    strokeWidth: 1,
+                  ),
+                ),
+                barGroups: data.asMap().entries.map((e) {
+                  return BarChartGroupData(
+                    x: e.key,
+                    barRods: [
+                      BarChartRodData(
+                        toY: e.value.count.toDouble(),
+                        color: const Color(0xFF38BDF8),
+                        width: 8, // Thinner bars for more space in histogram
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(2)),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,8 @@
+group_col,group,n_candidates,affected_count,additional_shortlisted,removed_shortlisted,fp_change,recommended_action,alert
+Education Level,Bachelor,1170,815,815,0,0.0,apply_group_threshold,
+Education Level,High School,146,52,52,0,0.0,apply_group_threshold,
+Education Level,Master,669,568,568,0,0.0,apply_group_threshold,
+Education Level,PhD,51,45,45,0,0.0,apply_group_threshold,
+Gender,F,1029,749,749,0,0.0,apply_group_threshold,
+Gender,M,999,726,726,0,0.0,apply_group_threshold,
+Gender,Other,8,5,5,0,0.0,manual_review + consider_retraining,unable_to_meet_target_recall
