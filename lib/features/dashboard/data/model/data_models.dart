@@ -6,3 +6,4 @@ export 'group_impact.dart';
 export 'overall_stats.dart';
 export 'disparity_models.dart';
 export 'score_distribution.dart';
+export 'recall_parity.dart';

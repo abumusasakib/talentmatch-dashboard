@@ -4,6 +4,7 @@ import '../../domain/entity/overall_stats_entity.dart';
 import '../../domain/entity/run_metadata_entity.dart';
 import '../../domain/entity/score_distribution_entity.dart';
 import '../model/data_models.dart';
+import '../../domain/entity/performance_metrics_entities.dart';
 
 class DashboardModelToEntityMapper {
   RunMetadataEntity mapToRunMetadataEntity(RunMetadata model) {
@@ -86,6 +87,33 @@ class DashboardModelToEntityMapper {
       binLeft: model.binLeft,
       binRight: model.binRight,
       count: model.count,
+    );
+  }
+
+  ConfusionMatrixEntity mapToConfusionMatrixEntity(Map<String, dynamic> data) {
+    return ConfusionMatrixEntity(
+      trueNegative: data['tn'] as int,
+      falsePositive: data['fp'] as int,
+      falseNegative: data['fn'] as int,
+      truePositive: data['tp'] as int,
+    );
+  }
+
+  RawScoreDataPoint mapToRawScoreDataPoint(Map<String, dynamic> data) {
+    return RawScoreDataPoint(
+      score: data['score'] as double,
+      shortlisted: data['shortlisted'] as bool,
+    );
+  }
+
+  RecallParityEntity mapToRecallParityEntity(RecallParity model) {
+    return RecallParityEntity(
+      groupCol: model.groupCol,
+      group: model.group,
+      nCandidates: model.nCandidates,
+      nPositive: model.nPositive,
+      achievedRecall: model.achievedRecall,
+      note: model.note,
     );
   }
 }

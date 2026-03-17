@@ -27,4 +27,8 @@ class DashboardDataToModelMapper {
   List<ScoreDistribution> mapToScoreDistribution(List<Map<String, dynamic>> data) {
     return data.map((json) => ScoreDistribution.fromJson(json)).toList();
   }
+
+  List<RecallParity> mapToRecallParity(List<Map<String, dynamic>> data) {
+    return data.map((json) => RecallParity.fromJson(json)).toList();
+  }
 }

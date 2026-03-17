@@ -128,12 +128,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( DashboardEntity entity,  RunMetadataEntity metadata,  List<GroupImpactEntity> impacts,  OverallStatsEntity stats,  List<GenderDisparityEntity> genderDisparity,  List<EducationDisparityEntity> educationDisparity,  List<ScoreDistributionEntity> scoreDistribution)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( DashboardData data)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _$InitialImpl() when initial != null:
 return initial();case _$LoadingImpl() when loading != null:
 return loading();case _$LoadedImpl() when loaded != null:
-return loaded(_that.entity,_that.metadata,_that.impacts,_that.stats,_that.genderDisparity,_that.educationDisparity,_that.scoreDistribution);case _$ErrorImpl() when error != null:
+return loaded(_that.data);case _$ErrorImpl() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -152,12 +152,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( DashboardEntity entity,  RunMetadataEntity metadata,  List<GroupImpactEntity> impacts,  OverallStatsEntity stats,  List<GenderDisparityEntity> genderDisparity,  List<EducationDisparityEntity> educationDisparity,  List<ScoreDistributionEntity> scoreDistribution)  loaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( DashboardData data)  loaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _$InitialImpl():
 return initial();case _$LoadingImpl():
 return loading();case _$LoadedImpl():
-return loaded(_that.entity,_that.metadata,_that.impacts,_that.stats,_that.genderDisparity,_that.educationDisparity,_that.scoreDistribution);case _$ErrorImpl():
+return loaded(_that.data);case _$ErrorImpl():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -175,12 +175,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( DashboardEntity entity,  RunMetadataEntity metadata,  List<GroupImpactEntity> impacts,  OverallStatsEntity stats,  List<GenderDisparityEntity> genderDisparity,  List<EducationDisparityEntity> educationDisparity,  List<ScoreDistributionEntity> scoreDistribution)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( DashboardData data)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _$InitialImpl() when initial != null:
 return initial();case _$LoadingImpl() when loading != null:
 return loading();case _$LoadedImpl() when loaded != null:
-return loaded(_that.entity,_that.metadata,_that.impacts,_that.stats,_that.genderDisparity,_that.educationDisparity,_that.scoreDistribution);case _$ErrorImpl() when error != null:
+return loaded(_that.data);case _$ErrorImpl() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -257,40 +257,10 @@ String toString() {
 
 
 class _$LoadedImpl implements DashboardState {
-  const _$LoadedImpl({required this.entity, required this.metadata, required final  List<GroupImpactEntity> impacts, required this.stats, required final  List<GenderDisparityEntity> genderDisparity, required final  List<EducationDisparityEntity> educationDisparity, required final  List<ScoreDistributionEntity> scoreDistribution}): _impacts = impacts,_genderDisparity = genderDisparity,_educationDisparity = educationDisparity,_scoreDistribution = scoreDistribution;
+  const _$LoadedImpl({required this.data});
   
 
- final  DashboardEntity entity;
- final  RunMetadataEntity metadata;
- final  List<GroupImpactEntity> _impacts;
- List<GroupImpactEntity> get impacts {
-  if (_impacts is EqualUnmodifiableListView) return _impacts;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_impacts);
-}
-
- final  OverallStatsEntity stats;
- final  List<GenderDisparityEntity> _genderDisparity;
- List<GenderDisparityEntity> get genderDisparity {
-  if (_genderDisparity is EqualUnmodifiableListView) return _genderDisparity;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_genderDisparity);
-}
-
- final  List<EducationDisparityEntity> _educationDisparity;
- List<EducationDisparityEntity> get educationDisparity {
-  if (_educationDisparity is EqualUnmodifiableListView) return _educationDisparity;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_educationDisparity);
-}
-
- final  List<ScoreDistributionEntity> _scoreDistribution;
- List<ScoreDistributionEntity> get scoreDistribution {
-  if (_scoreDistribution is EqualUnmodifiableListView) return _scoreDistribution;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_scoreDistribution);
-}
-
+ final  DashboardData data;
 
 /// Create a copy of DashboardState
 /// with the given fields replaced by the non-null parameter values.
@@ -302,16 +272,16 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.entity, entity) || other.entity == entity)&&(identical(other.metadata, metadata) || other.metadata == metadata)&&const DeepCollectionEquality().equals(other._impacts, _impacts)&&(identical(other.stats, stats) || other.stats == stats)&&const DeepCollectionEquality().equals(other._genderDisparity, _genderDisparity)&&const DeepCollectionEquality().equals(other._educationDisparity, _educationDisparity)&&const DeepCollectionEquality().equals(other._scoreDistribution, _scoreDistribution));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.data, data) || other.data == data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,entity,metadata,const DeepCollectionEquality().hash(_impacts),stats,const DeepCollectionEquality().hash(_genderDisparity),const DeepCollectionEquality().hash(_educationDisparity),const DeepCollectionEquality().hash(_scoreDistribution));
+int get hashCode => Object.hash(runtimeType,data);
 
 @override
 String toString() {
-  return 'DashboardState.loaded(entity: $entity, metadata: $metadata, impacts: $impacts, stats: $stats, genderDisparity: $genderDisparity, educationDisparity: $educationDisparity, scoreDistribution: $scoreDistribution)';
+  return 'DashboardState.loaded(data: $data)';
 }
 
 
@@ -322,7 +292,7 @@ abstract mixin class _$$LoadedImplCopyWith<$Res> implements $DashboardStateCopyW
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) _then) = __$$LoadedImplCopyWithImpl;
 @useResult
 $Res call({
- DashboardEntity entity, RunMetadataEntity metadata, List<GroupImpactEntity> impacts, OverallStatsEntity stats, List<GenderDisparityEntity> genderDisparity, List<EducationDisparityEntity> educationDisparity, List<ScoreDistributionEntity> scoreDistribution
+ DashboardData data
 });
 
 
@@ -339,16 +309,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 /// Create a copy of DashboardState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? entity = null,Object? metadata = null,Object? impacts = null,Object? stats = null,Object? genderDisparity = null,Object? educationDisparity = null,Object? scoreDistribution = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
   return _then(_$LoadedImpl(
-entity: null == entity ? _self.entity : entity // ignore: cast_nullable_to_non_nullable
-as DashboardEntity,metadata: null == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
-as RunMetadataEntity,impacts: null == impacts ? _self._impacts : impacts // ignore: cast_nullable_to_non_nullable
-as List<GroupImpactEntity>,stats: null == stats ? _self.stats : stats // ignore: cast_nullable_to_non_nullable
-as OverallStatsEntity,genderDisparity: null == genderDisparity ? _self._genderDisparity : genderDisparity // ignore: cast_nullable_to_non_nullable
-as List<GenderDisparityEntity>,educationDisparity: null == educationDisparity ? _self._educationDisparity : educationDisparity // ignore: cast_nullable_to_non_nullable
-as List<EducationDisparityEntity>,scoreDistribution: null == scoreDistribution ? _self._scoreDistribution : scoreDistribution // ignore: cast_nullable_to_non_nullable
-as List<ScoreDistributionEntity>,
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DashboardData,
   ));
 }
 

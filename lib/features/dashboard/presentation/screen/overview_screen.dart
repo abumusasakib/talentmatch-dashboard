@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:talentmatch_dashboard/features/dashboard/presentation/widgets/score_vs_shortlist_chart.dart';
+import 'package:talentmatch_dashboard/features/dashboard/domain/entity/performance_metrics_entities.dart';
 import '../../domain/entity/dashboard_entity.dart';
 import '../../domain/entity/group_impact_entity.dart';
-import '../cubit/dashboard_cubit.dart';
-import '../cubit/dashboard_state.dart';
 import '../widgets/stat_card.dart';
+
+import '../widgets/dashboard_state_manager.dart';
 
 class OverviewScreen extends StatelessWidget {
   const OverviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardCubit, DashboardState>(
-      builder: (context, state) {
-        return state.when(
-          initial: () => const Center(child: CircularProgressIndicator()),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (message) => Center(
-            child: Text('Error: $message',
-                style: const TextStyle(color: Colors.red)),
-          ),
-          loaded: (entity, metadata, impacts, stats, genderDisparity, educationDisparity, scoreDistribution) =>
-              _buildContent(entity, impacts),
-        );
-      },
+    return DashboardStateManager(
+      builder: (context, data) => _buildContent(data.entity, data.impacts, data.rawScores),
     );
   }
 
-  Widget _buildContent(DashboardEntity entity, List<GroupImpactEntity> impacts) {
+  Widget _buildContent(DashboardEntity entity, List<GroupImpactEntity> impacts, List<RawScoreDataPoint> rawScores) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -38,6 +28,11 @@ class OverviewScreen extends StatelessWidget {
           _buildHeader(entity),
           const SizedBox(height: 32),
           _buildStatsGrid(entity),
+          const SizedBox(height: 48),
+          SizedBox(
+            height: 400,
+            child: ScoreVsShortlistChart(scores: rawScores),
+          ),
           const SizedBox(height: 48),
           _buildGroupImpactTable(impacts),
         ],
@@ -68,8 +63,12 @@ class OverviewScreen extends StatelessWidget {
 
   String _formatRunTime(String runUtc) {
     try {
-      final dateTime = DateTime.parse(runUtc);
-      return '${DateFormat('MMM dd, yyyy • hh:mm a').format(dateTime)} UTC';
+      // Use toUtc() and then toLocal() to ensure correct conversion
+      // runUtc is in ISO8601 format from the CSV
+      final dateTime = DateTime.parse(runUtc).toLocal();
+      // Get timezone name (e.g., PDT, GMT+6)
+      final tzName = dateTime.timeZoneName;
+      return '${DateFormat('MMM dd, yyyy • hh:mm a').format(dateTime)} $tzName';
     } catch (e) {
       return runUtc;
     }

@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../domain/entity/group_impact_entity.dart';
 import '../../domain/entity/disparity_entities.dart';
-import '../cubit/dashboard_cubit.dart';
-import '../cubit/dashboard_state.dart';
+import '../../domain/entity/performance_metrics_entities.dart';
 import '../widgets/bias_charts.dart';
+import 'package:talentmatch_dashboard/features/dashboard/presentation/widgets/fairness_parity_chart.dart';
+import '../widgets/dashboard_state_manager.dart';
 
 class FairnessScreen extends StatelessWidget {
   const FairnessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardCubit, DashboardState>(
-      builder: (context, state) {
-        return state.when(
-          initial: () => const SizedBox.shrink(),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (message) => Center(child: Text('Error: $message')),
-          loaded: (entity, metadata, impacts, stats, genderDisparity, educationDisparity, scoreDistribution) =>
-              _buildContent(entity.alertCount, impacts, genderDisparity, educationDisparity),
-        );
-      },
+    return DashboardStateManager(
+      builder: (context, data) => _buildContent(
+        data.entity.alertCount,
+        data.impacts,
+        data.genderDisparity,
+        data.educationDisparity,
+        data.recallParity,
+        data.metadata.groupThresholding.targetRecall,
+      ),
     );
   }
 
@@ -30,6 +29,8 @@ class FairnessScreen extends StatelessWidget {
     List<GroupImpactEntity> impacts,
     List<GenderDisparityEntity> genderDisparity,
     List<EducationDisparityEntity> educationDisparity,
+    List<RecallParityEntity> recallParity,
+    double targetRecall,
   ) {
     final List<GroupImpactEntity> alerts =
         impacts.where((GroupImpactEntity i) => i.alert.isNotEmpty).toList();
@@ -50,6 +51,15 @@ class FairnessScreen extends StatelessWidget {
             _buildAlertBox(alerts),
             const SizedBox(height: 32),
           ],
+
+          SizedBox(
+            height: 400,
+            child: FairnessParityChart(
+              recallParity: recallParity,
+              targetRecall: targetRecall,
+            ),
+          ),
+          const SizedBox(height: 48),
 
           // Visual Bias Indicators - Vertical Stack to prevent squishing
           SizedBox(

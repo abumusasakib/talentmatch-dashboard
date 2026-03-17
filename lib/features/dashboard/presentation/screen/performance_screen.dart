@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:talentmatch_dashboard/features/dashboard/presentation/widgets/confusion_matrix_widget.dart';
+import 'package:talentmatch_dashboard/features/dashboard/domain/entity/performance_metrics_entities.dart';
 import '../../domain/entity/run_metadata_entity.dart';
 import '../../domain/entity/score_distribution_entity.dart';
-import '../cubit/dashboard_cubit.dart';
-import '../cubit/dashboard_state.dart';
 import '../widgets/performance_comparison_chart.dart';
 import '../widgets/score_distribution_chart.dart';
+
+import '../widgets/dashboard_state_manager.dart';
 
 class PerformanceScreen extends StatelessWidget {
   const PerformanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardCubit, DashboardState>(
-      builder: (context, state) {
-        return state.when(
-          initial: () => const SizedBox.shrink(),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (message) => Center(child: Text('Error: $message')),
-          loaded: (entity, metadata, impacts, stats, genderDisparity, educationDisparity, scoreDistribution) =>
-              _buildContent(metadata, scoreDistribution),
-        );
-      },
+    return DashboardStateManager(
+      builder: (context, data) => _buildContent(
+        data.metadata,
+        data.scoreDistribution,
+        data.confusionMatrix,
+      ),
     );
   }
 
-  Widget _buildContent(RunMetadataEntity metadata, List<ScoreDistributionEntity> scoreDistribution) {
+  Widget _buildContent(
+    RunMetadataEntity metadata,
+    List<ScoreDistributionEntity> scoreDistribution,
+    ConfusionMatrixEntity matrix,
+  ) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -47,21 +48,21 @@ class PerformanceScreen extends StatelessWidget {
             style: GoogleFonts.inter(color: Colors.white54, fontSize: 14),
           ),
           const SizedBox(height: 32),
+
+          // Distribution Section
+          SizedBox(
+            height: 400,
+            width: double.infinity,
+            child: ScoreDistributionChart(data: scoreDistribution),
+          ),
+
+          const SizedBox(height: 32),
           
           // Performance Comparison Section
           SizedBox(
             height: 500,
             width: double.infinity,
             child: PerformanceComparisonChart(metrics: metadata.modelComparison),
-          ),
-          
-          const SizedBox(height: 32),
-          
-          // Distribution Section
-          SizedBox(
-            height: 400,
-            width: double.infinity,
-            child: ScoreDistributionChart(data: scoreDistribution),
           ),
           
           const SizedBox(height: 48),
@@ -134,6 +135,13 @@ class PerformanceScreen extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 48),
+          const SizedBox(height: 32),
+          SizedBox(
+            height: 400,
+            child: ConfusionMatrixWidget(matrix: matrix),
+          ),
+          const SizedBox(height: 48),
         ],
       ),
     );

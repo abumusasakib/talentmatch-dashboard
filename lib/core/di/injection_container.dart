@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import '../../features/dashboard/data/datasource/local/dashboard_local_data_source.dart';
 import '../../features/dashboard/data/mapper/dashboard_data_to_model_mapper.dart';
 import '../../features/dashboard/data/mapper/dashboard_model_to_entity_mapper.dart';
+import '../../features/dashboard/data/mapper/dashboard_result_to_entity_group_mapper.dart';
 import '../../features/dashboard/data/repository/dashboard_repository_impl.dart';
 import '../../features/dashboard/domain/mapper/dashboard_aggregator_mapper.dart';
 import '../../features/dashboard/domain/repository/dashboard_repository.dart';
@@ -32,6 +33,7 @@ Future<void> init() async {
       localDataSource: sl(),
       dataToModelMapper: sl(),
       modelToEntityMapper: sl(),
+      resultToEntityGroupMapper: sl(),
     ),
   );
 
@@ -44,4 +46,5 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DashboardDataToModelMapper());
   sl.registerLazySingleton(() => DashboardModelToEntityMapper());
   sl.registerLazySingleton(() => DashboardAggregatorMapper());
+  sl.registerLazySingleton(() => DashboardResultToEntityGroupMapper(sl()));
 }

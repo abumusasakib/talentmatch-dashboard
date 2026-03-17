@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../domain/entity/dashboard_entity.dart';
 import '../../domain/entity/run_metadata_entity.dart';
 import '../../domain/entity/group_impact_entity.dart';
-import '../cubit/dashboard_cubit.dart';
-import '../cubit/dashboard_state.dart';
+
+import '../widgets/dashboard_state_manager.dart';
 
 class GovernanceScreen extends StatelessWidget {
   const GovernanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardCubit, DashboardState>(
-      builder: (context, state) {
-        return state.when(
-          initial: () => const SizedBox.shrink(),
-          loading: () =>
-              const Center(child: CircularProgressIndicator()),
-          error: (message) => Center(child: Text('Error: $message')),
-          loaded: (entity, metadata, impacts, stats, genderDisparity, educationDisparity, scoreDistribution) =>
-              _buildContent(entity, metadata, impacts),
-        );
-      },
+    return DashboardStateManager(
+      builder: (context, data) => _buildContent(data.entity, data.metadata, data.impacts),
     );
   }
 

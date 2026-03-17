@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'core/router/router.dart';
+import 'package:talentmatch_dashboard/core/presentation/res/gen/colors.gen.dart';
+import 'package:talentmatch_dashboard/core/router/router.dart';
 import 'core/di/injection_container.dart' as di;
 import 'features/dashboard/presentation/cubit/dashboard_cubit.dart';
 
@@ -23,8 +24,8 @@ class TalentMatchApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
-          primaryColor: const Color(0xFF38BDF8),
-          scaffoldBackgroundColor: const Color(0xFF0F172A),
+          primaryColor: ColorName.primary,
+          scaffoldBackgroundColor: ColorName.background,
           textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
           useMaterial3: true,
         ),
