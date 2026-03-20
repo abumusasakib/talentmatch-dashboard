@@ -1,0 +1,2 @@
+run_utc,target_recall,operational_threshold,n_total_candidates,n_candidates_affected,n_additional_shortlisted,n_removed_shortlisted,groups_with_alerts_count,recommended_overall_action
+2026-02-21T18:34:33.279453Z,0.8,6.0,2036,1480,1480,0,1,see dashboard_group_impacts.csv for group actions
