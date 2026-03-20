@@ -28,6 +28,17 @@ jobs:
       - name: Build Web
         run: flutter build web --release --base-href "/talentmatch-dashboard/"
 
+      - name: Patch Assets for GitHub Pages
+        run: |
+          # Copy nested assets to root assets for correct loading on sub-paths
+          if [ -d "build/web/assets/assets" ]; then
+            cp -r build/web/assets/assets/* build/web/assets/
+          fi
+          # Ensure favicon.ico exists to prevent 404s
+          if [ ! -f "build/web/favicon.ico" ]; then
+            cp build/web/favicon.png build/web/favicon.ico || true
+          fi
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

@@ -1,6 +1,8 @@
 # TalentMatch AI Dashboard
 
-A premium, data-driven Flutter dashboard for analyzing AI model performance, fairness, and governance. Built with Clean Architecture principles to ensure high maintainability and scalability.
+[![Deploy to GitHub Pages](https://github.com/abumusasakib/talentmatch-dashboard/actions/workflows/deploy.yml/badge.svg)](https://github.com/abumusasakib/talentmatch-dashboard/actions/workflows/deploy.yml)
+
+**Live Demo**: [https://abumusasakib.github.io/talentmatch-dashboard/](https://abumusasakib.github.io/talentmatch-dashboard/)
 
 ## 🚀 Overview
 
