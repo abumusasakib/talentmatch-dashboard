@@ -1,0 +1,9 @@
+Category,Check_Description,Status,Value,Notes
+File_Outputs,Total files generated in outputs folder,PASS,57,"CSV (38), PNG (9), SVG (8), JSON (2), manifests"
+Data_Quality,Data quality validation and schema checks,PASS,All files,All critical CSVs validated with correct structure
+Data_Integrity,SHA256 hash verification and manifest audit,PASS,Complete,Chain of custody established for all outputs
+Model_Performance,Model comparison validation (NB vs LR),PASS,4 models,"Accuracy, precision, recall, F1 all within 0-1 range"
+Fairness_Analysis,Subgroup threshold analysis,PASS,7 groups,"Education Level (4 levels), Gender (3 levels) , 4072 candidates"
+Fairness_Metrics,Group-specific recall achievement,PASS,0.8 target,"Threshold range 1.2-2.8, 2985 positive outcomes verified"
+Subgroup_Counts,Demographic distribution verification,PASS,Valid,Bachelor(1170); High School(146); Master(669); PhD(51); F(1029); M(999); Other(8)
+Overall_Status,Validation summary,PASS,100%,"116 INFO, 0 WARN, 0 ERROR — all critical checks passed"

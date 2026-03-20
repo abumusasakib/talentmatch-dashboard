@@ -1,0 +1,117 @@
+level,message
+INFO,Found outputs folder: D:\courses\others\bpp\programming assignment\TalentMatch-AI-Automation\outputs
+INFO,Found 56 files in outputs/
+INFO,File present and non-empty: boxplot_ai_score_vs_shortlisted.csv
+INFO,File present and non-empty: boxplot_ai_score_vs_shortlisted.png
+INFO,File present and non-empty: boxplot_ai_score_vs_shortlisted.svg
+INFO,File present and non-empty: confusion_matrix.csv
+INFO,File present and non-empty: confusion_matrix.png
+INFO,File present and non-empty: confusion_matrix.svg
+INFO,File present and non-empty: correlation_numeric.csv
+INFO,File present and non-empty: correlation_numeric.png
+INFO,File present and non-empty: correlation_numeric.svg
+INFO,File present and non-empty: dashboard_group_impacts.csv
+INFO,File present and non-empty: dashboard_one_page.csv
+INFO,File present and non-empty: data_quality_report.csv
+INFO,File present and non-empty: df_csv_original.csv
+INFO,File present and non-empty: df_merged.csv
+INFO,File present and non-empty: df_xl_original.csv
+INFO,File present and non-empty: eda_age_bins.csv
+INFO,File present and non-empty: eda_age_distribution.png
+INFO,File present and non-empty: eda_age_distribution.svg
+INFO,File present and non-empty: eda_age_summary.csv
+INFO,File present and non-empty: eda_experience_distribution.png
+INFO,File present and non-empty: eda_experience_distribution.svg
+INFO,File present and non-empty: eda_experience_summary.csv
+INFO,File present and non-empty: eda_shortlist_by_gender.csv
+INFO,File present and non-empty: eda_shortlist_counts.csv
+INFO,File present and non-empty: eda_time_to_interview_by_Job.csv
+INFO,File present and non-empty: eda_time_to_interview_distribution.png
+INFO,File present and non-empty: eda_time_to_interview_distribution.svg
+INFO,File present and non-empty: eda_time_to_interview_summary.csv
+INFO,File present and non-empty: eda_top_jobs.csv
+INFO,File present and non-empty: eda_top5_countries.csv
+INFO,File present and non-empty: edu_shortlisted_proportion.csv
+INFO,File present and non-empty: edu_shortlisted_proportion.png
+INFO,File present and non-empty: edu_shortlisted_proportion.svg
+INFO,File present and non-empty: feature_influence_summary.csv
+INFO,File present and non-empty: freq_Education_Level.csv
+INFO,File present and non-empty: freq_Gender.csv
+INFO,File present and non-empty: freq_Job.csv
+INFO,File present and non-empty: freq_Shortlisted.csv
+INFO,File present and non-empty: group_thresholds_target_recall.csv
+INFO,File present and non-empty: histogram_ai_score.csv
+INFO,File present and non-empty: histogram_ai_score.png
+INFO,File present and non-empty: histogram_ai_score.svg
+INFO,File present and non-empty: manifest_of_outputs.csv
+INFO,File present and non-empty: model_comparison_summary.csv
+INFO,File present and non-empty: model_features_all.csv
+INFO,File present and non-empty: model_predictions.csv
+INFO,File present and non-empty: numeric_summary.csv
+INFO,File present and non-empty: run_metadata.json
+INFO,File present and non-empty: scored_with_group_thresholds.csv
+INFO,File present and non-empty: shortlisted_rate_summary.csv
+INFO,File present and non-empty: TalentMatch_Merged_Cleaned.csv
+INFO,File present and non-empty: threshold_comparison.csv
+INFO,File present and non-empty: threshold_subgroup_comparison.csv
+INFO,File present and non-empty: validation_report.csv
+INFO,File present and non-empty: validation_report.json
+INFO,File present and non-empty: validation_summary_consolidated.csv
+INFO,CSV columns OK for group_thresholds_target_recall.csv
+INFO,CSV columns OK for scored_with_group_thresholds.csv
+INFO,CSV columns OK for dashboard_one_page.csv
+INFO,CSV columns OK for dashboard_group_impacts.csv
+INFO,CSV columns OK for data_quality_report.csv
+INFO,CSV columns OK for model_comparison_summary.csv
+INFO,CSV columns OK for manifest_of_outputs.csv
+INFO,run_metadata.json has key: df_csv_rows
+INFO,run_metadata.json has key: df_xl_rows
+INFO,run_metadata.json has key: loaded_via
+INFO,Loaded manifest_of_outputs.csv
+INFO,All manifest SHA256 checks passed
+INFO,All non-exempt outputs are present in manifest
+INFO,model_comparison_summary.csv columns OK
+INFO,model_comparison accuracy values are valid (0-1 range)
+INFO,model_comparison precision values are valid (0-1 range)
+INFO,model_comparison recall values are valid (0-1 range)
+INFO,model_comparison f1 values are valid (0-1 range)
+INFO,"model_comparison has 4 models: NaiveBayes, LogisticRegression, DecisionTree, RandomForest"
+INFO,group_thresholds columns OK
+INFO,"group_thresholds n_candidates values valid, total candidates: 4072"
+INFO,"group_thresholds n_positive values valid, total positives: 3480"
+INFO,group_thresholds n_positive <= n_candidates constraint satisfied
+INFO,group_thresholds achieved_recall values are valid (0-1 range)
+INFO,"group_thresholds recommended_threshold values reasonable, range: 1.2 to 2.8"
+INFO,group_thresholds has 7 groups defined
+INFO,Generated fairness audit plot: audit_fairness_parity.png
+INFO,scored global_pred values are valid (0/1)
+INFO,scored group_pred values are valid (0/1)
+INFO,scored _score_used range reasonable: min= 0 max= 10
+INFO,scored changed_by_group_threshold flag is consistent with predictions
+INFO,dashboard n_total_candidates = 2036
+INFO,dashboard n_candidates_affected = 1480
+INFO,dashboard n_additional_shortlisted = 1480
+INFO,dashboard n_removed_shortlisted = 0
+INFO,dashboard groups_with_alerts_count = 1
+INFO,dashboard target_recall = 0.8
+INFO,dashboard candidate counts are logically consistent
+INFO,dashboard run_utc = 2026-02-21 18:34:33.279453
+INFO,dashboard n_total_candidates matches scored rows
+INFO,Group Education Level = Bachelor : candidate count matches ( 1170 )
+INFO,Group Education Level = High School : candidate count matches ( 146 )
+INFO,Group Education Level = Master : candidate count matches ( 669 )
+INFO,Group Education Level = PhD : candidate count matches ( 51 )
+INFO,Group Gender = F : candidate count matches ( 1029 )
+INFO,Group Gender = M : candidate count matches ( 999 )
+INFO,Group Gender = Other : candidate count matches ( 8 )
+INFO,run_metadata.json has key: df_csv_rows
+INFO,run_metadata.json has key: df_xl_rows
+INFO,run_metadata.json has key: loaded_via
+INFO,run_metadata.json has key: model_comparison
+INFO,run_metadata.json has key: group_thresholding
+INFO,run_metadata.json has key: manifest_generated_at
+INFO,run_metadata.json df_csv_rows = 1098
+INFO,run_metadata.json df_xl_rows = 938
+INFO,run_metadata.json model_comparison structure valid
+INFO,run_metadata.json group_thresholding has target_recall = 0.8
+INFO,run_metadata.json group_thresholding has operational_threshold = 6
