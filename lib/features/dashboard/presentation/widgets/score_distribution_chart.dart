@@ -1,4 +1,4 @@
-﻿import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:talentmatch_dashboard/core/presentation/res/gen/colors.gen.dart';
@@ -29,6 +29,7 @@ class ScoreDistributionChart extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
@@ -39,25 +40,27 @@ class ScoreDistributionChart extends StatelessWidget {
                 child: Icon(Icons.analytics, color: ColorName.primary, size: 20),
               ),
               const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'AI Score Distribution',
-                    style: GoogleFonts.outfit(
-                      color: ColorName.textPrimary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'AI Score Distribution',
+                      style: GoogleFonts.outfit(
+                        color: ColorName.textPrimary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Histogram of candidate scores across 30 bins',
-                    style: GoogleFonts.inter(
-                      color: ColorName.textSecondary,
-                      fontSize: 11,
+                    Text(
+                      'Histogram of candidate scores across 30 bins',
+                      style: GoogleFonts.inter(
+                        color: ColorName.textSecondary,
+                        fontSize: 11,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

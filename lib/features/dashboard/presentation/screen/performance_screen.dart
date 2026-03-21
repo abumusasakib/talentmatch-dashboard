@@ -16,6 +16,7 @@ class PerformanceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DashboardStateManager(
       builder: (context, data) => _buildContent(
+        context,
         data.metadata,
         data.scoreDistribution,
         data.confusionMatrix,
@@ -24,12 +25,14 @@ class PerformanceScreen extends StatelessWidget {
   }
 
   Widget _buildContent(
+    BuildContext context,
     RunMetadataEntity metadata,
     List<ScoreDistributionEntity> scoreDistribution,
     ConfusionMatrixEntity matrix,
   ) {
+    final bool isMobile = MediaQuery.of(context).size.width < 1024;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32, vertical: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

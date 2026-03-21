@@ -12,11 +12,12 @@ class GovernanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DashboardStateManager(
-      builder: (context, data) => _buildContent(data.entity, data.metadata, data.impacts),
+      builder: (context, data) => _buildContent(context, data.entity, data.metadata, data.impacts),
     );
   }
 
-  Widget _buildContent(DashboardEntity entity, RunMetadataEntity metadata, List<GroupImpactEntity> impacts) {
+  Widget _buildContent(BuildContext context, DashboardEntity entity, RunMetadataEntity metadata, List<GroupImpactEntity> impacts) {
+    final bool isMobile = MediaQuery.of(context).size.width < 1024;
     // Extract unique subgroup columns from impacts
     final subgroups = impacts.map((GroupImpactEntity i) => i.groupCol).toSet().toList();
     final subgroupsText = subgroups.isEmpty 
@@ -24,7 +25,7 @@ class GovernanceScreen extends StatelessWidget {
         : 'Subgroup analysis for ${subgroups.join(", ")}';
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32, vertical: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,18 +38,18 @@ class GovernanceScreen extends StatelessWidget {
           _sectionTitle('System Environment'),
           const SizedBox(height: 16),
           _infoCard([
-            _infoRow('Platform', entity.platform),
-            _infoRow('Python', entity.pythonVersion),
-            _infoRow('Random Seed', entity.seed.toString()),
-            _infoRow('Data Loader', metadata.loadedVia),
+            _infoRow(context, 'Platform', entity.platform),
+            _infoRow(context, 'Python', entity.pythonVersion),
+            _infoRow(context, 'Random Seed', entity.seed.toString()),
+            _infoRow(context, 'Data Loader', metadata.loadedVia),
           ]),
           const SizedBox(height: 32),
           _sectionTitle('Thresholding Policy'),
           const SizedBox(height: 16),
           _infoCard([
-            _infoRow('Target Recall',
+            _infoRow(context, 'Target Recall',
                 '${(entity.targetRecall * 100).toStringAsFixed(0)}%'),
-            _infoRow('Operational Threshold',
+            _infoRow(context, 'Operational Threshold',
                 entity.operationalThreshold.toString()),
           ]),
           const SizedBox(height: 32),
@@ -72,6 +73,7 @@ class GovernanceScreen extends StatelessWidget {
       );
 
   Widget _infoCard(List<Widget> children) => Container(
+        width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: Colors.white.withAlpha(13),
@@ -82,37 +84,45 @@ class GovernanceScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start, children: children),
       );
 
-  Widget _infoRow(String label, String value) => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 180,
-              child: Text(label,
-                  style:
-                      const TextStyle(color: Colors.white54, fontSize: 15)),
-            ),
-            Expanded(
-              child: Text(value,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600)),
-            ),
-          ],
-        ),
-      );
+  Widget _infoRow(BuildContext context, String label, String value) {
+    final bool isSmallMobile = MediaQuery.of(context).size.width < 480;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Flex(
+        direction: isSmallMobile ? Axis.vertical : Axis.horizontal,
+        crossAxisAlignment: isSmallMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: isSmallMobile ? null : 180,
+            child: Text(label,
+                style:
+                    const TextStyle(color: Colors.white54, fontSize: 15)),
+          ),
+          if (isSmallMobile) const SizedBox(height: 4),
+          Flexible(
+            child: Text(value,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+  }
 
 
   Widget _buildAuditItem(IconData icon, String title, String description) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
+      width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white.withAlpha(13),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: const Color(0xFF38BDF8)),
           const SizedBox(width: 20),
@@ -123,6 +133,7 @@ class GovernanceScreen extends StatelessWidget {
                 Text(title,
                     style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
                 Text(description,
                     style: const TextStyle(color: Colors.white60)),
               ],

@@ -32,6 +32,7 @@ class PerformanceComparisonChart extends StatelessWidget {
         children: [
           // Header section
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.all(8),

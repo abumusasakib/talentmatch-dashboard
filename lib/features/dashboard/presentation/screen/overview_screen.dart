@@ -15,13 +15,14 @@ class OverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DashboardStateManager(
-      builder: (context, data) => _buildContent(data.entity, data.impacts, data.rawScores),
+      builder: (context, data) => _buildContent(context, data.entity, data.impacts, data.rawScores),
     );
   }
 
-  Widget _buildContent(DashboardEntity entity, List<GroupImpactEntity> impacts, List<RawScoreDataPoint> rawScores) {
+  Widget _buildContent(BuildContext context, DashboardEntity entity, List<GroupImpactEntity> impacts, List<RawScoreDataPoint> rawScores) {
+    final bool isMobile = MediaQuery.of(context).size.width < 1024;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32, vertical: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

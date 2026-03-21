@@ -14,6 +14,7 @@ class FairnessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DashboardStateManager(
       builder: (context, data) => _buildContent(
+        context,
         data.entity.alertCount,
         data.impacts,
         data.genderDisparity,
@@ -25,6 +26,7 @@ class FairnessScreen extends StatelessWidget {
   }
 
   Widget _buildContent(
+    BuildContext context,
     int alertCount,
     List<GroupImpactEntity> impacts,
     List<GenderDisparityEntity> genderDisparity,
@@ -32,11 +34,12 @@ class FairnessScreen extends StatelessWidget {
     List<RecallParityEntity> recallParity,
     double targetRecall,
   ) {
+    final bool isMobile = MediaQuery.of(context).size.width < 1024;
     final List<GroupImpactEntity> alerts =
         impacts.where((GroupImpactEntity i) => i.alert.isNotEmpty).toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32, vertical: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -97,6 +100,7 @@ class FairnessScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final GroupImpactEntity impact = impacts[index];
                 final bool hasAlert = impact.alert.isNotEmpty;
+                final bool isSmallMobile = MediaQuery.of(context).size.width < 600;
                 return ListTile(
                   contentPadding: const EdgeInsets.all(24),
                   title: Text(
@@ -113,21 +117,23 @@ class FairnessScreen extends StatelessWidget {
                       style: const TextStyle(color: Colors.white60),
                     ),
                   ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        impact.friendlyRecommendedAction,
-                        style: TextStyle(
-                            color: hasAlert ? Colors.orangeAccent : Colors.greenAccent,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      if (hasAlert)
-                        Text(impact.friendlyAlert,
-                            style: const TextStyle(color: Colors.redAccent, fontSize: 12)),
-                    ],
-                  ),
+                  trailing: isSmallMobile 
+                      ? null 
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              impact.friendlyRecommendedAction,
+                              style: TextStyle(
+                                  color: hasAlert ? Colors.orangeAccent : Colors.greenAccent,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            if (hasAlert)
+                              Text(impact.friendlyAlert,
+                                  style: const TextStyle(color: Colors.redAccent, fontSize: 12)),
+                          ],
+                        ),
                 );
               },
             ),

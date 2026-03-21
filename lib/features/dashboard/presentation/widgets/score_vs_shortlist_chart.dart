@@ -1,4 +1,4 @@
-﻿import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:talentmatch_dashboard/core/presentation/res/gen/colors.gen.dart';
 import 'package:talentmatch_dashboard/features/dashboard/domain/entity/performance_metrics_entities.dart';
@@ -43,12 +43,14 @@ class ScoreVsShortlistChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Score vs Shortlist Insight',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: ColorName.textPrimary,
-                ),
+          Flexible(
+            child: Text(
+              'Score vs Shortlist Insight',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: ColorName.textPrimary,
+                  ),
+            ),
           ),
           const SizedBox(height: 20),
           Expanded(

@@ -26,6 +26,7 @@ class BiasChartContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
@@ -36,12 +37,14 @@ class BiasChartContainer extends StatelessWidget {
                 child: Icon(icon, color: const Color(0xFF38BDF8), size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

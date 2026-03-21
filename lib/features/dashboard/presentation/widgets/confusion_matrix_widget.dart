@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:talentmatch_dashboard/core/presentation/res/gen/colors.gen.dart';
 import 'package:talentmatch_dashboard/features/dashboard/domain/entity/performance_metrics_entities.dart';
 
@@ -24,14 +24,18 @@ class ConfusionMatrixWidget extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Model Diagnostics (Confusion Matrix)',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: ColorName.textPrimary,
-                    ),
+              Flexible(
+                child: Text(
+                  'Model Diagnostics (Confusion Matrix)',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: ColorName.textPrimary,
+                      ),
+                ),
               ),
+              const SizedBox(width: 8),
               _MetricBadge(
                 label: 'Accuracy',
                 value: '${(matrix.accuracy * 100).toStringAsFixed(1)}%',

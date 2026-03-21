@@ -48,6 +48,7 @@ dependencies:
   dartz: ^0.10.1
   shimmer: ^3.0.0
   flutter_gen: ^5.13.0+1
+  responsive_framework: ^1.5.1
 
 dev_dependencies:
   flutter_test:

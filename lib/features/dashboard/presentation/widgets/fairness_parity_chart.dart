@@ -1,4 +1,4 @@
-﻿import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:talentmatch_dashboard/core/presentation/res/gen/colors.gen.dart';
@@ -36,28 +36,32 @@ class FairnessParityChart extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Algorithmic Fairness Audit: Recall Parity by Group',
-                    style: GoogleFonts.outfit(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Algorithmic Fairness Audit: Recall Parity by Group',
+                      style: GoogleFonts.outfit(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Equality of Opportunity Audit',
-                    style: GoogleFonts.inter(
-                      color: Colors.white54,
-                      fontSize: 12,
+                    const SizedBox(height: 4),
+                    Text(
+                      'Equality of Opportunity Audit',
+                      style: GoogleFonts.inter(
+                        color: Colors.white54,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 16),
               Row(
                 children: [
                   _LegendItem(color: const Color(0xFF4E79A7), label: 'Pass'),
