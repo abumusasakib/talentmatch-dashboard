@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../../domain/entity/group_impact_entity.dart';
 import '../../domain/entity/disparity_entities.dart';
 import '../../domain/entity/performance_metrics_entities.dart';
@@ -34,7 +35,7 @@ class FairnessScreen extends StatelessWidget {
     List<RecallParityEntity> recallParity,
     double targetRecall,
   ) {
-    final bool isMobile = MediaQuery.of(context).size.width < 1024;
+    final bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
     final List<GroupImpactEntity> alerts =
         impacts.where((GroupImpactEntity i) => i.alert.isNotEmpty).toList();
 
@@ -46,7 +47,9 @@ class FairnessScreen extends StatelessWidget {
           Text(
             'Fairness Audit',
             style: GoogleFonts.outfit(
-                color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontSize: isMobile ? 24 : 32,
+                fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 32),
           
@@ -56,7 +59,7 @@ class FairnessScreen extends StatelessWidget {
           ],
 
           SizedBox(
-            height: 400,
+            height: isMobile ? 450 : 400,
             child: FairnessParityChart(
               recallParity: recallParity,
               targetRecall: targetRecall,
@@ -66,13 +69,13 @@ class FairnessScreen extends StatelessWidget {
 
           // Visual Bias Indicators - Vertical Stack to prevent squishing
           SizedBox(
-            height: 400,
+            height: isMobile ? 280 : 400,
             width: double.infinity,
             child: GenderBiasChart(data: genderDisparity),
           ),
           const SizedBox(height: 32),
           SizedBox(
-            height: 400,
+            height: isMobile ? 280 : 400,
             width: double.infinity,
             child: EducationBiasChart(data: educationDisparity),
           ),
@@ -110,28 +113,85 @@ class FairnessScreen extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      '+${impact.additionalShortlisted} shortlisted  •  FP Δ: ${impact.fpChange.toStringAsFixed(1)}',
-                      style: const TextStyle(color: Colors.white60),
-                    ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          '+${impact.additionalShortlisted} shortlisted  •  FP Δ: ${impact.fpChange.toStringAsFixed(1)}',
+                          style: const TextStyle(color: Colors.white60),
+                        ),
+                      ),
+                      if (isSmallMobile) ...[
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: hasAlert
+                                ? Colors.orange.withAlpha(26)
+                                : Colors.green.withAlpha(26),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            impact.friendlyRecommendedAction,
+                            style: TextStyle(
+                              color: hasAlert
+                                  ? Colors.orangeAccent
+                                  : Colors.greenAccent,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        if (hasAlert)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4, left: 4),
+                            child: Text(
+                              impact.friendlyAlert,
+                              style: const TextStyle(
+                                  color: Colors.redAccent, fontSize: 10),
+                            ),
+                          ),
+                      ],
+                    ],
                   ),
-                  trailing: isSmallMobile 
-                      ? null 
+                  trailing: isSmallMobile
+                      ? null
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
-                              impact.friendlyRecommendedAction,
-                              style: TextStyle(
-                                  color: hasAlert ? Colors.orangeAccent : Colors.greenAccent,
-                                  fontWeight: FontWeight.bold),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: hasAlert
+                                    ? Colors.orange.withAlpha(26)
+                                    : Colors.green.withAlpha(26),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                impact.friendlyRecommendedAction,
+                                style: TextStyle(
+                                  color: hasAlert
+                                      ? Colors.orangeAccent
+                                      : Colors.greenAccent,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                             if (hasAlert)
-                              Text(impact.friendlyAlert,
-                                  style: const TextStyle(color: Colors.redAccent, fontSize: 12)),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  impact.friendlyAlert,
+                                  style: const TextStyle(
+                                      color: Colors.redAccent, fontSize: 12),
+                                ),
+                              ),
                           ],
                         ),
                 );

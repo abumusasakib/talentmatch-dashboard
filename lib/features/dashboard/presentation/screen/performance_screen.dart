@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:talentmatch_dashboard/features/dashboard/presentation/widgets/confusion_matrix_widget.dart';
 import 'package:talentmatch_dashboard/features/dashboard/domain/entity/performance_metrics_entities.dart';
 import '../../domain/entity/run_metadata_entity.dart';
@@ -30,7 +31,7 @@ class PerformanceScreen extends StatelessWidget {
     List<ScoreDistributionEntity> scoreDistribution,
     ConfusionMatrixEntity matrix,
   ) {
-    final bool isMobile = MediaQuery.of(context).size.width < 1024;
+    final bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32, vertical: 32),
       child: Column(
@@ -40,7 +41,7 @@ class PerformanceScreen extends StatelessWidget {
             'Model Performance',
             style: GoogleFonts.outfit(
               color: Colors.white,
-              fontSize: 32,
+              fontSize: isMobile ? 24 : 32,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -54,7 +55,7 @@ class PerformanceScreen extends StatelessWidget {
 
           // Distribution Section
           SizedBox(
-            height: 400,
+            height: isMobile ? 280 : 400,
             width: double.infinity,
             child: ScoreDistributionChart(data: scoreDistribution),
           ),
@@ -63,7 +64,7 @@ class PerformanceScreen extends StatelessWidget {
           
           // Performance Comparison Section
           SizedBox(
-            height: 500,
+            height: isMobile ? 350 : 500,
             width: double.infinity,
             child: PerformanceComparisonChart(metrics: metadata.modelComparison),
           ),
@@ -141,7 +142,7 @@ class PerformanceScreen extends StatelessWidget {
           const SizedBox(height: 48),
           const SizedBox(height: 32),
           SizedBox(
-            height: 400,
+            height: isMobile ? 350 : 400,
             child: ConfusionMatrixWidget(matrix: matrix),
           ),
           const SizedBox(height: 48),

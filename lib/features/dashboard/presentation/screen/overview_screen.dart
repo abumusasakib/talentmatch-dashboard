@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:talentmatch_dashboard/features/dashboard/presentation/widgets/score_vs_shortlist_chart.dart';
 import 'package:talentmatch_dashboard/features/dashboard/domain/entity/performance_metrics_entities.dart';
 import '../../domain/entity/dashboard_entity.dart';
@@ -26,12 +27,12 @@ class OverviewScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(entity),
+          _buildHeader(entity, context),
           const SizedBox(height: 32),
-          _buildStatsGrid(entity),
+          _buildStatsGrid(entity, context),
           const SizedBox(height: 48),
           SizedBox(
-            height: 400,
+            height: isMobile ? 280 : 400,
             child: ScoreVsShortlistChart(scores: rawScores),
           ),
           const SizedBox(height: 48),
@@ -41,7 +42,8 @@ class OverviewScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(DashboardEntity entity) {
+  Widget _buildHeader(DashboardEntity entity, BuildContext context) {
+    final bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -49,7 +51,7 @@ class OverviewScreen extends StatelessWidget {
           'Executive Overview',
           style: GoogleFonts.outfit(
             color: Colors.white,
-            fontSize: 32,
+            fontSize: isMobile ? 24 : 32,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -75,15 +77,22 @@ class OverviewScreen extends StatelessWidget {
     }
   }
 
-  Widget _buildStatsGrid(DashboardEntity entity) {
+  Widget _buildStatsGrid(DashboardEntity entity, BuildContext context) {
+    final bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final bool isTablet = ResponsiveBreakpoints.of(context).isTablet;
+
+    final double spacing = isMobile ? 16.0 : 24.0;
+    final double maxCrossAxisExtent = isMobile ? 200.0 : (isTablet ? 250.0 : 300.0);
+    final double childAspectRatio = isMobile ? 1.3 : (isTablet ? 1.4 : 1.6);
+
     return GridView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 300,
-        mainAxisSpacing: 24,
-        crossAxisSpacing: 24,
-        childAspectRatio: 1.6,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: maxCrossAxisExtent,
+        mainAxisSpacing: spacing,
+        crossAxisSpacing: spacing,
+        childAspectRatio: childAspectRatio,
       ),
       children: [
         StatCard(
@@ -147,6 +156,29 @@ class OverviewScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final impact = impacts[index];
               final bool hasAlert = impact.alert.isNotEmpty;
+              final bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
+
+              Widget buildBadge() => Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? 8 : 12,
+                      vertical: isMobile ? 4 : 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: hasAlert
+                          ? Colors.red.withAlpha(26)
+                          : Colors.blue.withAlpha(26),
+                      borderRadius: BorderRadius.circular(isMobile ? 8 : 12),
+                    ),
+                    child: Text(
+                      impact.friendlyRecommendedAction,
+                      style: TextStyle(
+                        color: hasAlert ? Colors.redAccent : Colors.blueAccent,
+                        fontSize: isMobile ? 10 : 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+
               return ListTile(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -155,29 +187,21 @@ class OverviewScreen extends StatelessWidget {
                   style: GoogleFonts.inter(
                       color: Colors.white, fontWeight: FontWeight.w600),
                 ),
-                subtitle: Text(
-                  'Candidates: ${impact.nCandidates}  •  Affected: ${impact.affectedCount}',
-                  style: const TextStyle(color: Colors.white54),
-                ),
-                trailing: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: hasAlert
-                        ? Colors.red.withAlpha(26)
-                        : Colors.blue.withAlpha(26),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    impact.friendlyRecommendedAction,
-                    style: TextStyle(
-                      color:
-                          hasAlert ? Colors.redAccent : Colors.blueAccent,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
+                    Text(
+                      'Candidates: ${impact.nCandidates}  •  Affected: ${impact.affectedCount}',
+                      style: const TextStyle(color: Colors.white54),
                     ),
-                  ),
+                    if (isMobile) ...[
+                      const SizedBox(height: 12),
+                      buildBadge(),
+                    ],
+                  ],
                 ),
+                trailing: isMobile ? null : buildBadge(),
               );
             },
           ),
