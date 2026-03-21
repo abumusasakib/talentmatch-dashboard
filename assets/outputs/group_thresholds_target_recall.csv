@@ -1,8 +1,0 @@
-group_col,group,n_candidates,n_positive,recommended_threshold,achieved_recall,global_FP,global_TN,global_FN,global_TP,group_FP,group_TN,group_FN,group_TP,global_fp_rate,group_fp_rate,fp_rate_change,note
-Education Level,Bachelor,1170,952,1.2,0.884453781512605,0,218,925,27,0,218,110,842,0.0,0.0,0.0,meets_target
-Education Level,High School,146,68,1.6,0.8088235294117647,0,78,65,3,0,78,13,55,0.0,0.0,0.0,meets_target
-Education Level,Master,669,669,2.0,0.898355754857997,0,0,636,33,0,0,68,601,not_computable,not_computable,not_computable,meets_target
-Education Level,PhD,51,51,2.0,0.9803921568627451,0,0,46,5,0,0,1,50,not_computable,not_computable,not_computable,meets_target
-Gender,F,1029,882,2.0,0.8049886621315193,0,147,843,39,0,147,172,710,0.0,0.0,0.0,meets_target
-Gender,M,999,851,1.6,0.8484136310223267,0,148,822,29,0,148,129,722,0.0,0.0,0.0,meets_target
-Gender,Other,8,7,2.8,0.7142857142857143,0,1,7,0,0,1,2,5,0.0,0.0,0.0,adjusted_for_fp_tolerance
