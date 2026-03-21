@@ -58,10 +58,11 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
   @override
   Future<Map<String, dynamic>> getConfusionMatrix() async {
     try {
-      final String csvString =
+      final String rawCsvString =
           await rootBundle.loadString(Assets.outputs.confusionMatrixCsv);
+      final String csvString = rawCsvString.replaceAll('\r\n', '\n');
       final List<List<dynamic>> rows =
-          const CsvToListConverter().convert(csvString);
+          const CsvToListConverter(eol: '\n').convert(csvString);
 
       if (rows.length < 3) return {};
 
@@ -85,10 +86,11 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
   @override
   Future<List<Map<String, dynamic>>> getRawScores() async {
     try {
-      final String csvString = await rootBundle.loadString(
+      final String rawCsvString = await rootBundle.loadString(
           Assets.outputs.boxplotAiScoreVsShortlistedCsv);
+      final String csvString = rawCsvString.replaceAll('\r\n', '\n');
       final List<List<dynamic>> rows =
-          const CsvToListConverter().convert(csvString);
+          const CsvToListConverter(eol: '\n').convert(csvString);
 
       if (rows.length <= 1) return [];
 
@@ -121,9 +123,10 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
   Future<List<Map<String, dynamic>>> _loadCsv(String path) async {
     try {
       AppLogger.debug('DashboardLocalDataSource: Loading CSV from $path');
-      final String csvString = await rootBundle.loadString(path);
+      final String rawCsvString = await rootBundle.loadString(path);
+      final String csvString = rawCsvString.replaceAll('\r\n', '\n');
       final List<List<dynamic>> rows =
-          const CsvToListConverter().convert(csvString);
+          const CsvToListConverter(eol: '\n').convert(csvString);
       if (rows.length <= 1) return [];
 
       final List<String> headers =
